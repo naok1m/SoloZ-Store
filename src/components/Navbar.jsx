@@ -1,0 +1,114 @@
+import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
+
+export default function Navbar() {
+  const { totalItems } = useCart()
+  const location = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const navLinks = [
+    { to: '/', label: 'Início' },
+    { to: '/shop', label: 'Loja' },
+    { to: '/cart', label: 'Carrinho' },
+  ]
+
+  const isActive = (path) => location.pathname === path
+
+  return (
+    <nav className="bg-db-dark/95 backdrop-blur-sm border-b border-db-border sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+            <span className="font-gaming text-lg font-black text-white">Solo <span className="text-amber-400">Z</span></span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm transition-all ${
+                  isActive(link.to)
+                    ? 'text-yellow-400 bg-yellow-500/10'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Carrinho + Admin */}
+          <div className="flex items-center gap-2">
+            <Link
+              to="/cart"
+              className="relative flex items-center gap-1.5 border border-db-border px-3 py-1.5 rounded-lg text-gray-300 hover:text-white hover:border-gray-500 transition-colors text-sm font-semibold"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-16H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span className="hidden sm:block">Carrinho</span>
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-amber-500 text-black text-xs w-5 h-5 rounded-full flex items-center justify-center font-black">
+                  {totalItems > 9 ? '9+' : totalItems}
+                </span>
+              )}
+            </Link>
+
+            <Link
+              to="/admin/login"
+              className="hidden sm:block text-xs text-gray-600 hover:text-gray-400 px-2 py-1 rounded transition-colors"
+            >
+              Admin
+            </Link>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Abrir menu"
+          >
+            <div className="space-y-1">
+              <span className={`block w-5 h-0.5 bg-current transition-all ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-current transition-all ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-current transition-all ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+            </div>
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="md:hidden border-t border-db-border py-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`block px-4 py-2.5 font-rajdhani font-semibold text-sm transition-colors ${
+                  isActive(link.to) ? 'text-yellow-400' : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              to="/admin/login"
+              className="block px-4 py-2.5 text-gray-600 hover:text-gray-400 font-semibold text-sm transition-colors"
+              onClick={() => setMenuOpen(false)}
+            >
+              Admin
+            </Link>
+          </div>
+        )}
+      </div>
+    </nav>
+  )
+}
