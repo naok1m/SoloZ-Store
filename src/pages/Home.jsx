@@ -240,7 +240,7 @@ export default function Home() {
       {/* ── Footer ───────────────────────────────────────────── */}
       <footer className="border-t border-db-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-600 text-xs">
-          <span className="font-gaming font-bold text-gray-500">DragonBlock Store</span>
+          <span className="font-gaming font-bold text-gray-500">Solo Z</span>
           <p>© 2026 — Protótipo Visual. Não é uma loja real.</p>
           <div className="flex gap-4">
             <Link to="/shop" className="hover:text-gray-400 transition-colors">Loja</Link>

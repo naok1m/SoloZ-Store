@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
+import logo from '../assets/Logo.png'
 
 const menuItems = [
   { to: '/admin/dashboard', label: 'Dashboard', icon: 'dashboard' },
@@ -54,10 +55,12 @@ export default function AdminSidebar() {
       {/* Logo do painel */}
       <div className="p-6 border-b border-db-border">
         <Link to="/" className="flex items-center gap-2">
-          <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
-          </svg>
-          <span className="font-gaming text-sm font-black text-white">DragonBlock</span>
+          <img
+            src={logo}
+            alt="Logo da Solo Z"
+            className="w-6 h-6 rounded object-contain"
+          />
+          <span className="font-gaming text-sm font-black text-white">Solo Z</span>
         </Link>
         <p className="text-gray-600 text-xs mt-1">Painel Administrativo</p>
       </div>

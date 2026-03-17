@@ -34,7 +34,7 @@ export default function CategoryCard({ category }) {
   return (
     <Link
       to={`/shop?category=${category.id}`}
-      className="group relative bg-[#171726]/85 border border-white/12 rounded-xl p-4 hover:border-amber-400/35 transition-all block text-center overflow-hidden backdrop-blur-sm"
+      className="group relative bg-[#171726]/85 border border-amber-400/25 rounded-xl p-4 hover:border-amber-300/80 transition-all block text-center overflow-hidden backdrop-blur-sm shadow-[0_0_18px_rgba(245,158,11,0.15)] hover:shadow-[0_0_26px_rgba(245,158,11,0.35)] animate-border-glow"
     >
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-b from-white/10 to-transparent" />
       <div className="relative flex justify-center mb-2 text-gray-400 group-hover:text-amber-300 transition-colors">

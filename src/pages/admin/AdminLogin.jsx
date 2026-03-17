@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import logo from '../../assets/Logo.png'
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('')
@@ -30,12 +31,14 @@ export default function AdminLogin() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl mb-4 shadow-lg shadow-orange-500/20">
-            <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
-            </svg>
+            <img
+              src={logo}
+              alt="Logo da Solo Z"
+              className="w-10 h-10 object-contain"
+            />
           </div>
           <h1 className="font-gaming text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
-            DragonBlock Store
+            Solo Z
           </h1>
           <p className="text-gray-600 text-sm mt-1">Painel Administrativo</p>
         </div>
@@ -55,7 +58,7 @@ export default function AdminLogin() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@dragonblock.com"
+                placeholder="admin@soloz.com"
                 required
                 className="w-full bg-db-dark border border-db-border rounded-xl px-4 py-3 text-white text-sm placeholder-gray-700 focus:outline-none focus:border-yellow-500/40 transition-colors"
               />

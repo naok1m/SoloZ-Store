@@ -1,4 +1,4 @@
-// Dados mockados de produtos para o servidor DragonBlock
+// Dados mockados de produtos para o servidor Solo Z
 import imgSSJ1      from '../assets/products/sayajin1.gif'
 import imgSSJBlue   from '../assets/products/goku blue mt loco.gif'
 import imgUI        from '../assets/products/ffeb994c05df1f79ca60931185429e54.gif'
@@ -6,7 +6,8 @@ import imgVipSSJ    from '../assets/products/teste.gif'
 import imgZeni      from '../assets/products/40ae37e7fb62f55a1f8088269b7f0303.jpg'
 import imgSSJ2      from '../assets/products/gokubalck.gif'
 import imgNamekusei from '../assets/products/gifnamekusei.gif'
-
+import imgProduct1 from '../assets/products/ezgif-8b1e93e21ac2d8f5.gif'
+ 
 export const products = [
   {
     id: 1,
@@ -14,7 +15,7 @@ export const products = [
     description:
       'Transforme-se no lendário Super Saiyajin! Aumente seu poder de combate, velocidade e ki. Cabelo dourado, aura brilhante e força devastadora por 30 dias no servidor.',
     price: 19.9,
-    image: imgSSJ1,
+    image: imgProduct1,
     category: 'transformacoes',
     popular: true,
     badge: 'POPULAR',

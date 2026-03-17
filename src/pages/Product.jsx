@@ -54,7 +54,7 @@ export default function ProductPage() {
         <div className="border-b border-db-border bg-gradient-to-b from-yellow-950/10 to-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
-              DragonBlock Store
+              Solo Z
             </p>
             <h1 className="font-gaming text-3xl font-bold text-white">Produto</h1>
             <p className="text-gray-500 text-sm mt-1">Item indisponível</p>
@@ -111,7 +111,7 @@ export default function ProductPage() {
       <div className="relative bg-gradient-to-b from-yellow-950/10 to-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
-            DragonBlock Store
+            Solo Z
           </p>
           <h1 className="font-gaming text-3xl font-bold text-white">{product.name}</h1>
           <p className="text-gray-500 text-sm mt-1">

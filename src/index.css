@@ -93,6 +93,12 @@
     font-family: inherit;
   }
 
+  @media (max-width: 640px) {
+    html {
+      font-size: 16px;
+    }
+  }
+
   /* Seleção de texto com Glow Neon */
   ::selection {
     background: transparent;

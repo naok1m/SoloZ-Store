@@ -32,7 +32,7 @@ export default function Cart() {
         <div className="border-b border-db-border bg-gradient-to-b from-yellow-950/10 to-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
-              DragonBlock Store
+              Solo Z
             </p>
             <h1 className="font-gaming text-3xl font-bold text-white">Pedido</h1>
             <p className="text-gray-500 text-sm mt-1">Compra finalizada com sucesso</p>
@@ -84,7 +84,7 @@ export default function Cart() {
         <div className="border-b border-db-border bg-gradient-to-b from-yellow-950/10 to-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
-              DragonBlock Store
+              Solo Z
             </p>
             <h1 className="font-gaming text-3xl font-bold text-white">Carrinho</h1>
             <p className="text-gray-500 text-sm mt-1">Nenhum item no momento</p>
@@ -121,7 +121,7 @@ export default function Cart() {
       <div className="border-b border-db-border bg-gradient-to-b from-yellow-950/10 to-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
-            DragonBlock Store
+            Solo Z
           </p>
           <h1 className="font-gaming text-3xl font-bold text-white">Carrinho</h1>
           <p className="text-gray-500 text-sm mt-1">
