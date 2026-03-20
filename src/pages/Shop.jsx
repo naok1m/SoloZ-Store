@@ -36,23 +36,23 @@ export default function Shop() {
     })
 
   return (
-    <div className="min-h-screen bg-db-dark">
+    <div className="min-h-screen bg-[#151518]">
 
       {/* Cabeçalho da página */}
-      <div className="relative bg-gradient-to-b from-yellow-950/10 to-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
+      <div className="relative bg-gradient-to-b from-[#1b1b22]/70 to-transparent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <p className="text-slate-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
             Solo Z
           </p>
           <h1 className="font-gaming text-3xl font-bold text-white">Loja</h1>
-          <p className="text-gray-500 text-sm mt-1">Todos os itens disponíveis para o servidor</p>
+          <p className="text-gray-400 text-sm mt-1">Todos os itens disponíveis para o servidor</p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
 
         {/* Barra de busca e ordenação */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        <div className="flex flex-col sm:flex-row gap-2.5 mb-4">
           <div className="relative flex-1">
             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm" aria-hidden="true">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,13 +64,13 @@ export default function Shop() {
               placeholder="Buscar produto..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-db-card border border-db-border rounded-xl pl-10 pr-4 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-yellow-500/40 transition-colors"
+              className="w-full bg-[#1b1b22] border border-[#2a2a35] rounded-xl pl-10 pr-4 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-slate-400/50 transition-colors"
             />
           </div>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="bg-db-card border border-db-border rounded-xl px-4 py-2.5 text-gray-400 text-sm focus:outline-none focus:border-yellow-500/40 transition-colors cursor-pointer"
+            className="bg-[#1b1b22] border border-[#2a2a35] rounded-xl px-4 py-2.5 text-gray-400 text-sm focus:outline-none focus:border-slate-400/50 transition-colors cursor-pointer"
           >
             <option value="default">Ordenar por</option>
             <option value="price-asc">Menor preço</option>
@@ -80,13 +80,13 @@ export default function Shop() {
         </div>
 
         {/* Filtro por categoria */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-2 mb-5">
           <button
             onClick={() => handleCategoryChange('all')}
             className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
               activeCategory === 'all'
-                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black'
-                : 'bg-db-card border border-db-border text-gray-500 hover:border-yellow-500/30 hover:text-yellow-400'
+                ? 'bg-gradient-to-r from-slate-200 to-slate-400 text-black font-black'
+                : 'bg-[#1b1b22] border border-[#2a2a35] text-gray-500 hover:border-slate-400/40 hover:text-slate-300'
             }`}
           >
             Todos
@@ -97,8 +97,8 @@ export default function Shop() {
               onClick={() => handleCategoryChange(cat.id)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                 activeCategory === cat.id
-                  ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black'
-                  : 'bg-db-card border border-db-border text-gray-500 hover:border-yellow-500/30 hover:text-yellow-400'
+                  ? 'bg-gradient-to-r from-slate-200 to-slate-400 text-black font-black'
+                  : 'bg-[#1b1b22] border border-[#2a2a35] text-gray-500 hover:border-slate-400/40 hover:text-slate-300'
               }`}
             >
               {cat.name}
@@ -107,13 +107,13 @@ export default function Shop() {
         </div>
 
         {/* Contador de resultados */}
-        <p className="text-gray-600 text-xs mb-6">
+        <p className="text-gray-500 text-xs mb-4">
           {filtered.length} produto{filtered.length !== 1 ? 's' : ''} encontrado
           {filtered.length !== 1 ? 's' : ''}
           {activeCategory !== 'all' && (
             <button
               onClick={() => handleCategoryChange('all')}
-              className="ml-3 text-yellow-500/70 hover:text-yellow-400 transition-colors"
+              className="ml-3 text-slate-300/70 hover:text-slate-200 transition-colors"
             >
               Limpar filtro
             </button>
@@ -122,13 +122,13 @@ export default function Shop() {
 
         {/* Grid de produtos */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filtered.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-24">
+          <div className="text-center py-16">
             <span className="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-gray-500" aria-hidden="true">
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" />

@@ -5,16 +5,16 @@ import { products } from '../../data/products'
 
 // Dados mockados para o dashboard
 const dashboardStats = [
-  { label: 'Produtos Ativos', value: products.length, icon: 'products', trend: '+2 esta semana', color: 'from-yellow-500 to-orange-500' },
+  { label: 'Produtos Ativos', value: products.length, icon: 'products', trend: '+2 esta semana', color: 'from-sky-500 to-cyan-500' },
   { label: 'Pedidos Hoje', value: '24', icon: 'orders', trend: '+8 vs ontem', color: 'from-blue-500 to-cyan-500' },
   { label: 'Receita Total', value: 'R$ 4.890', icon: 'money', trend: '+12% este mês', color: 'from-green-500 to-teal-500' },
   { label: 'Jogadores Únicos', value: '312', icon: 'users', trend: '+45 esta semana', color: 'from-purple-500 to-pink-500' },
 ]
 
 const categoryChart = [
-  { label: 'Transformações', percent: 72, icon: 'transformacoes', color: 'from-yellow-500 to-orange-500' },
+  { label: 'Transformações', percent: 72, icon: 'transformacoes', color: 'from-sky-500 to-cyan-500' },
   { label: 'VIP', percent: 55, icon: 'vip', color: 'from-purple-500 to-pink-500' },
-  { label: 'Moedas Zeni', percent: 40, icon: 'moedas', color: 'from-yellow-400 to-amber-600' },
+  { label: 'Moedas Zeni', percent: 40, icon: 'moedas', color: 'from-sky-400 to-cyan-600' },
   { label: 'Kits', percent: 28, icon: 'kits', color: 'from-green-500 to-teal-500' },
 ]
 
@@ -158,7 +158,7 @@ function DashboardContent() {
         {dashboardStats.map((stat) => (
           <div
             key={stat.label}
-            className="bg-db-card border border-db-border rounded-xl p-5 hover:border-yellow-500/20 transition-colors"
+            className="bg-db-card border border-db-border rounded-xl p-5 hover:border-sky-500/20 transition-colors"
           >
             <div className="flex items-start justify-between mb-4">
               <span className="text-gray-300"><Icon type={stat.icon} className="w-6 h-6" /></span>
@@ -179,7 +179,7 @@ function DashboardContent() {
         <div className="bg-db-card border border-db-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-gaming text-sm font-bold text-white">Top Produtos</h2>
-            <a href="/admin/products" className="text-yellow-500/70 text-xs hover:text-yellow-400 transition-colors">
+            <a href="/admin/products" className="text-sky-500/70 text-xs hover:text-sky-400 transition-colors">
               Ver todos →
             </a>
           </div>
@@ -193,7 +193,7 @@ function DashboardContent() {
                   <p className="text-white text-xs font-semibold truncate">{product.name}</p>
                   <p className="text-gray-600 text-xs">{product.category}</p>
                 </div>
-                <span className="text-yellow-400 font-black text-xs flex-shrink-0">
+                <span className="text-sky-400 font-black text-xs flex-shrink-0">
                   R$ {product.price.toFixed(2)}
                 </span>
               </div>
@@ -229,7 +229,7 @@ function DashboardContent() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-gaming text-lg font-bold text-white">Pedidos Recentes</h2>
-          <a href="/admin/orders" className="text-yellow-500/70 text-xs hover:text-yellow-400 transition-colors">
+          <a href="/admin/orders" className="text-sky-500/70 text-xs hover:text-sky-400 transition-colors">
             Ver todos →
           </a>
         </div>
@@ -260,13 +260,13 @@ function DashboardContent() {
                     <td className="px-4 py-3 text-gray-500 text-xs font-mono">{order.id}</td>
                     <td className="px-4 py-3 text-white text-sm font-semibold whitespace-nowrap">{order.player}</td>
                     <td className="px-4 py-3 text-gray-400 text-sm whitespace-nowrap">{order.product}</td>
-                    <td className="px-4 py-3 text-yellow-400 font-black text-sm whitespace-nowrap">{order.value}</td>
+                    <td className="px-4 py-3 text-sky-400 font-black text-sm whitespace-nowrap">{order.value}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`text-xs px-2 py-1 rounded-lg font-semibold whitespace-nowrap ${
                           order.status === 'Entregue'
                             ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                            : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
+                            : 'bg-sky-500/10 text-sky-400 border border-sky-500/20'
                         }`}
                       >
                         {order.status}

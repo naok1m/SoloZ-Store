@@ -128,7 +128,7 @@ export const categories = [
     name: 'Transformações',
     description: 'SSJ, SSB, UI e muito mais',
     icon: '⚡',
-    gradient: 'from-yellow-500 to-orange-500',
+    gradient: 'from-sky-500 to-cyan-500',
   },
   {
     id: 'vip',
@@ -142,7 +142,7 @@ export const categories = [
     name: 'Moedas Zeni',
     description: 'Moedas para usar no servidor',
     icon: '💰',
-    gradient: 'from-yellow-400 to-amber-600',
+    gradient: 'from-sky-400 to-cyan-600',
   },
   {
     id: 'kits',

@@ -11,7 +11,7 @@ const categoryLabels = {
 function CategoryIcon({ category }) {
   if (category === 'transformacoes') {
     return (
-      <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     )
@@ -101,7 +101,7 @@ function ProductModal({ onClose, onSave, product = null }) {
             <input
               value={formData.name}
               onChange={(e) => updateField('name', e.target.value)}
-              className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-yellow-500/50 transition-colors"
+              className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-sky-500/50 transition-colors"
               placeholder="Ex: Super Saiyajin Blue"
             />
           </div>
@@ -111,7 +111,7 @@ function ProductModal({ onClose, onSave, product = null }) {
             <textarea
               value={formData.description}
               onChange={(e) => updateField('description', e.target.value)}
-              className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-yellow-500/50 transition-colors h-20 resize-none"
+              className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-sky-500/50 transition-colors h-20 resize-none"
               placeholder="Descreva o produto..."
             />
           </div>
@@ -121,7 +121,7 @@ function ProductModal({ onClose, onSave, product = null }) {
             <input
               value={formData.image}
               onChange={(e) => updateField('image', e.target.value)}
-              className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-yellow-500/50 transition-colors"
+              className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-sky-500/50 transition-colors"
               placeholder="https://site.com/produto.gif"
             />
 
@@ -160,7 +160,7 @@ function ProductModal({ onClose, onSave, product = null }) {
                 onChange={(e) => updateField('price', e.target.value)}
                 type="number"
                 step="0.01"
-                className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-yellow-500/50 transition-colors"
+                className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-sky-500/50 transition-colors"
                 placeholder="0.00"
               />
             </div>
@@ -169,7 +169,7 @@ function ProductModal({ onClose, onSave, product = null }) {
               <select
                 value={formData.category}
                 onChange={(e) => updateField('category', e.target.value)}
-                className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-yellow-500/50 transition-colors"
+                className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-sky-500/50 transition-colors"
               >
                 <option value="">Selecionar</option>
                 <option value="transformacoes">Transformações</option>
@@ -185,7 +185,7 @@ function ProductModal({ onClose, onSave, product = null }) {
             <select
               value={formData.badge}
               onChange={(e) => updateField('badge', e.target.value)}
-              className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-yellow-500/50 transition-colors"
+              className="w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-gray-300 text-sm focus:outline-none focus:border-sky-500/50 transition-colors"
             >
               <option value="">Nenhum</option>
               <option value="POPULAR">POPULAR</option>
@@ -207,7 +207,7 @@ function ProductModal({ onClose, onSave, product = null }) {
           </button>
           <button
             onClick={handleSave}
-            className="flex-1 px-4 py-2.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black rounded-xl hover:from-yellow-400 hover:to-orange-400 transition-all text-sm"
+            className="flex-1 px-4 py-2.5 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all text-sm"
           >
             {isEdit ? 'Salvar Alterações' : 'Adicionar'}
           </button>
@@ -251,7 +251,7 @@ export default function AdminTable() {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black px-4 py-2 rounded-xl hover:from-yellow-400 hover:to-orange-400 transition-all text-sm"
+          className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black px-4 py-2 rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all text-sm"
         >
           + Adicionar Produto
         </button>
@@ -314,7 +314,7 @@ export default function AdminTable() {
 
                   {/* Preço */}
                   <td className="px-4 py-3">
-                    <span className="text-yellow-400 font-black text-sm">
+                    <span className="text-sky-400 font-black text-sm">
                       R$ {product.price.toFixed(2)}
                     </span>
                   </td>

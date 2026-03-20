@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { products, categories } from '../data/products'
 import ProductCard from '../components/ProductCard'
 import CategoryCard from '../components/CategoryCard'
 import heroBg from '../assets/hero-back.jpg'
+import logo from '../assets/Logo.png'
 
 const KI_ORBS = [
   { w: 14, h: 14, top: '18%', left: '8%',  delay: '0s',   dur: '6.5s' },
@@ -19,6 +20,8 @@ const KI_ORBS = [
 
 export default function Home() {
   const [ipCopied, setIpCopied] = useState(false)
+  const logoCardRef = useRef(null)
+  const [logoTilt, setLogoTilt] = useState({ x: 0, y: 0, active: false })
   const popularProducts = products.filter((p) => p.popular)
 
   const copyIp = () => {
@@ -26,6 +29,16 @@ export default function Home() {
     setIpCopied(true)
     setTimeout(() => setIpCopied(false), 2500)
   }
+
+  const handleLogoMove = (e) => {
+    if (!logoCardRef.current) return
+    const rect = logoCardRef.current.getBoundingClientRect()
+    const rotateX = -((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * 10
+    const rotateY = ((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 10
+    setLogoTilt({ x: rotateX, y: rotateY, active: true })
+  }
+
+  const handleLogoLeave = () => setLogoTilt({ x: 0, y: 0, active: false })
 
   return (
     <div className="min-h-screen bg-db-dark">
@@ -42,10 +55,10 @@ export default function Home() {
             className="hero-bg-asset absolute inset-0 w-full h-full object-cover object-center opacity-100 scale-100"
           />
           {/* Glow central */}
-          <div className="hero-glow-drift absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2 w-[min(72vw,44rem)] h-[min(72vw,44rem)] rounded-full bg-amber-500/22 blur-[90px]" />
-          {/* Second glow — mais quente */}
-          <div className="hero-glow-drift absolute left-1/2 top-[40%] -translate-x-1/2 w-[min(40vw,22rem)] h-[min(40vw,22rem)] rounded-full bg-orange-600/12 blur-[70px]" style={{ animationDelay: '1.3s' }} />
-          <div className="hero-sweep absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(251,191,36,0.18),transparent_58%)]" />
+          <div className="hero-glow-drift absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2 w-[min(72vw,44rem)] h-[min(72vw,44rem)] rounded-full bg-sky-500/20 blur-[90px]" />
+          {/* Second glow — mais frio */}
+          <div className="hero-glow-drift absolute left-1/2 top-[40%] -translate-x-1/2 w-[min(40vw,22rem)] h-[min(40vw,22rem)] rounded-full bg-cyan-500/12 blur-[70px]" style={{ animationDelay: '1.3s' }} />
+          <div className="hero-sweep absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(56,189,248,0.2),transparent_58%)]" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#060613]/85 via-[#060613]/30 to-[#060613]/85" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#060613]/70 via-[#060613]/08 to-[#060613]/85" />
         </div>
@@ -54,7 +67,7 @@ export default function Home() {
         {KI_ORBS.map((orb, i) => (
           <div
             key={i}
-            className="absolute rounded-full bg-amber-400 blur-[6px] pointer-events-none ki-orb"
+            className="absolute rounded-full bg-sky-400 blur-[6px] pointer-events-none ki-orb"
             style={{
               width: orb.w,
               height: orb.h,
@@ -68,78 +81,112 @@ export default function Home() {
         ))}
 
         {/* Conteúdo */}
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-28 pb-28 text-center">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-28 pb-28">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
+            {/* Texto principal */}
+            <div className="text-center lg:text-left">
+              <p className="inline-flex items-center gap-2 text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-widest mb-3 bg-sky-500/10 border border-sky-500/20 px-3 py-1.5 rounded-full">
+                Loja oficial Solo Z
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+              </p>
 
-      
+              <h1
+                className="font-gaming text-5xl sm:text-6xl font-black mb-4 leading-tight max-w-[14ch] mx-auto lg:mx-0 text-white animate-fade-in-up"
+                style={{
+                  textShadow: '0 0 22px rgba(56,189,248,0.35)',
+                  animationDelay: '80ms',
+                }}
+              >
+                Poder instantâneo no servidor
+              </h1>
 
-          {/* Título com gradiente animado */}
-          <h1
-            className="font-gaming text-5xl sm:text-6xl font-black mb-4 leading-tight max-w-[13ch] mx-auto text-shimmer animate-fade-in-up"
-            style={{
-              backgroundImage: 'linear-gradient(135deg, #fde68a 0%, #fbbf24 30%, #f97316 60%, #fbbf24 80%, #fde68a 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 22px rgba(251,191,36,0.4))',
-              animationDelay: '80ms',
-            }}
-          >
-            Alcance o poder máximo
-          </h1>
+              <p
+                className="text-gray-300/85 text-lg max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed animate-fade-in-up"
+                style={{ animationDelay: '180ms' }}
+              >
+                Pacotes diretos, entrega rápida e benefícios claros. Escolha seu upgrade e comece forte desde o primeiro login.
+              </p>
 
-          <p
-            className="text-gray-300/85 text-lg max-w-xl mx-auto mb-8 leading-relaxed animate-fade-in-up"
-            style={{ animationDelay: '180ms' }}
-          >
-            Transforme-se em Super Saiyajin, desbloqueie habilidades e domine o servidor desde os primeiros minutos.
-          </p>
-
-          {/* Botões */}
-          <div
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-7 animate-fade-in-up"
-            style={{ animationDelay: '280ms' }}
-          >
-            <Link
-              to="/shop"
-              className="inline-flex items-center gap-2 bg-amber-500 text-black font-black text-base px-8 py-3.5 rounded-xl hover:bg-amber-400 hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(245,158,11,0.6)] transition-all w-full sm:w-auto justify-center"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              Acessar Loja
-            </Link>
-            <button
-              onClick={copyIp}
-              className="inline-flex items-center gap-2 border border-white/20 bg-white/5 text-gray-100 font-semibold text-base px-7 py-3.5 rounded-xl hover:border-amber-400/45 hover:bg-amber-500/8 hover:-translate-y-1 transition-all w-full sm:w-auto justify-center backdrop-blur-sm"
-            >
-              {ipCopied ? (
-                <>
-                  <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+              {/* Botões */}
+              <div
+                className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3 mb-7 animate-fade-in-up"
+                style={{ animationDelay: '280ms' }}
+              >
+                <Link
+                  to="/shop"
+                  className="inline-flex items-center gap-2 bg-sky-500 text-black font-black text-base px-8 py-3.5 rounded-xl hover:bg-sky-400 hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(56,189,248,0.6)] transition-all w-full sm:w-auto justify-center"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <span className="text-green-400">IP Copiado!</span>
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  Acessar Loja
+                </Link>
+              </div>
+
+              {/* Online indicator */}
+              <p
+                className="flex items-center justify-center lg:justify-start gap-2 text-gray-400 text-sm animate-fade-in-up"
+                style={{ animationDelay: '380ms' }}
+              >
+                <span className="font-mono text-sky-400 font-semibold">soloz.jogar.co</span>
+                <span className="text-gray-600">·</span>
+                <span className="w-2 h-2 bg-green-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.9)]" />
+                <span>Online agora</span>
+              </p>
+            </div>
+
+            {/* Logo 3D + ações */}
+            <div className="flex flex-col items-center gap-5">
+              <div
+                ref={logoCardRef}
+                onMouseMove={handleLogoMove}
+                onMouseLeave={handleLogoLeave}
+                style={{
+                  transform: `perspective(900px) rotateX(${logoTilt.x}deg) rotateY(${logoTilt.y}deg) ${logoTilt.active ? 'scale(1.03)' : 'scale(1)'}`,
+                  transition: logoTilt.active ? 'transform 0.08s ease' : 'transform 0.45s ease',
+                }}
+                className="flex items-center justify-center"
+              >
+                <img
+                  src={logo}
+                  alt="Logo da Solo Z"
+                  className="w-60 h-60 sm:w-64 sm:h-64 object-contain drop-shadow-[0_0_36px_rgba(56,189,248,0.55)]"
+                />
+              </div>
+
+              <div className="w-full max-w-sm grid grid-cols-1 gap-3">
+                <a
+                  href="/modpack.zip"
+                  className="inline-flex items-center justify-center gap-2 bg-sky-500 text-black font-black text-base px-6 py-3 rounded-xl hover:bg-sky-400 hover:-translate-y-0.5 transition-all"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 3v12m0 0l-4-4m4 4l4-4M4 17h16" />
                   </svg>
-                  Copiar IP
-                </>
-              )}
-            </button>
+                  Baixar Modpack
+                </a>
+                <button
+                  onClick={copyIp}
+                  className="inline-flex items-center justify-center gap-2 border border-white/20 bg-white/5 text-gray-100 font-semibold text-base px-6 py-3 rounded-xl hover:border-sky-400/45 hover:bg-sky-500/8 transition-all backdrop-blur-sm"
+                >
+                  {ipCopied ? (
+                    <>
+                      <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-green-400">IP Copiado!</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      Copiar IP
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
-
-          {/* Online indicator */}
-          <p
-            className="flex items-center justify-center gap-2 text-gray-400 text-sm animate-fade-in-up"
-            style={{ animationDelay: '380ms' }}
-          >
-            <span className="font-mono text-amber-400 font-semibold">soloz.jogar.co</span>
-            <span className="text-gray-600">·</span>
-            <span className="w-2 h-2 bg-green-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.9)]" />
-            <span>Online agora</span>
-          </p>
         </div>
 
         {/* Divisor curvo */}
@@ -159,12 +206,12 @@ export default function Home() {
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14">
         <div className="flex items-end justify-between mb-7">
           <div>
-            <p className="text-amber-400/70 text-xs font-gaming font-semibold uppercase tracking-widest mb-1">
+            <p className="text-sky-400/70 text-xs font-gaming font-semibold uppercase tracking-widest mb-1">
               Explore
             </p>
             <h2 className="font-gaming text-2xl font-bold text-white">Categorias</h2>
           </div>
-          <Link to="/shop" className="text-amber-400 text-sm hover:text-amber-300 transition-colors hidden sm:inline-flex items-center gap-1">
+          <Link to="/shop" className="text-sky-400 text-sm hover:text-sky-300 transition-colors hidden sm:inline-flex items-center gap-1">
             Ver tudo
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -183,15 +230,15 @@ export default function Home() {
       {/* ── Produtos populares ───────────────────────────────── */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         {/* Glow sutil atrás dos cards */}
-        <div className="absolute inset-x-0 top-[-60px] h-[320px] bg-gradient-to-b from-amber-500/4 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 top-[-60px] h-[320px] bg-gradient-to-b from-sky-500/4 to-transparent pointer-events-none" />
         <div className="flex items-end justify-between mb-8">
           <div>
-            <p className="text-amber-400/70 text-xs font-gaming font-semibold uppercase tracking-widest mb-1">
+            <p className="text-sky-400/70 text-xs font-gaming font-semibold uppercase tracking-widest mb-1">
               Destaques
             </p>
             <h2 className="font-gaming text-2xl font-black text-white">Mais Populares</h2>
           </div>
-          <Link to="/shop" className="text-amber-400 text-sm hover:text-amber-300 transition-colors hidden sm:inline-flex items-center gap-1">
+          <Link to="/shop" className="text-sky-400 text-sm hover:text-sky-300 transition-colors hidden sm:inline-flex items-center gap-1">
             Ver todos
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -206,7 +253,7 @@ export default function Home() {
         <div className="text-center mt-10">
           <Link
             to="/shop"
-            className="inline-flex items-center gap-2 bg-db-card border border-db-border text-gray-400 font-semibold px-6 py-3 rounded-xl hover:border-amber-500/35 hover:text-amber-400 hover:bg-amber-500/5 transition-all text-sm"
+            className="inline-flex items-center gap-2 bg-db-card border border-db-border text-gray-400 font-semibold px-6 py-3 rounded-xl hover:border-sky-500/35 hover:text-sky-400 hover:bg-sky-500/5 transition-all text-sm"
           >
             Ver todos os produtos
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

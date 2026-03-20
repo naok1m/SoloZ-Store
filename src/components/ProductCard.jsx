@@ -62,7 +62,7 @@ export default function ProductCard({ product }) {
         </p>
 
         <div className="flex items-center justify-between gap-2">
-          <span className="text-lg font-bold text-amber-400">
+          <span className="text-lg font-bold text-sky-400">
             R$ {product.price.toFixed(2)}
           </span>
           <div className="flex gap-2">
@@ -74,7 +74,7 @@ export default function ProductCard({ product }) {
             </Link>
             <button
               onClick={() => addToCart(product)}
-              className="text-sm px-3 py-1.5 bg-amber-500 text-black font-bold rounded-lg hover:bg-amber-400 transition-colors"
+              className="text-sm px-3 py-1.5 bg-sky-500 text-black font-bold rounded-lg hover:bg-sky-400 transition-colors"
             >
               Comprar
             </button>

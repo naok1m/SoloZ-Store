@@ -22,22 +22,22 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-db-dark flex items-center justify-center p-4">
       {/* Fundo decorativo */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative w-full max-w-md">
 
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl mb-4 shadow-lg shadow-orange-500/20">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-2xl mb-4 shadow-lg shadow-sky-500/25">
             <img
               src={logo}
               alt="Logo da Solo Z"
-              className="w-10 h-10 object-contain"
+              className="w-12 h-12 object-contain"
             />
           </div>
-          <h1 className="font-gaming text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
+          <h1 className="font-gaming text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-500">
             Solo Z
           </h1>
           <p className="text-gray-600 text-sm mt-1">Painel Administrativo</p>
@@ -60,7 +60,7 @@ export default function AdminLogin() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@soloz.com"
                 required
-                className="w-full bg-db-dark border border-db-border rounded-xl px-4 py-3 text-white text-sm placeholder-gray-700 focus:outline-none focus:border-yellow-500/40 transition-colors"
+                className="w-full bg-db-dark border border-db-border rounded-xl px-4 py-3 text-white text-sm placeholder-gray-700 focus:outline-none focus:border-sky-500/40 transition-colors"
               />
             </div>
 
@@ -74,14 +74,14 @@ export default function AdminLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="w-full bg-db-dark border border-db-border rounded-xl px-4 py-3 text-white text-sm placeholder-gray-700 focus:outline-none focus:border-yellow-500/40 transition-colors"
+                className="w-full bg-db-dark border border-db-border rounded-xl px-4 py-3 text-white text-sm placeholder-gray-700 focus:outline-none focus:border-sky-500/40 transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black rounded-xl hover:from-yellow-400 hover:to-orange-400 transition-all hover:shadow-lg hover:shadow-orange-500/25 disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+              className="w-full py-3.5 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all hover:shadow-lg hover:shadow-sky-500/25 disabled:opacity-60 disabled:cursor-not-allowed mt-2"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -97,8 +97,8 @@ export default function AdminLogin() {
             </button>
           </form>
 
-          <div className="mt-5 p-3 bg-yellow-500/5 border border-yellow-500/10 rounded-xl">
-            <p className="text-yellow-600/70 text-xs text-center">
+          <div className="mt-5 p-3 bg-sky-500/5 border border-sky-500/10 rounded-xl">
+            <p className="text-sky-400/70 text-xs text-center">
               Protótipo visual: qualquer credencial será aceita.
             </p>
           </div>

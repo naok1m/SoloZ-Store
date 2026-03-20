@@ -5,9 +5,9 @@ import { useCart } from '../context/CartContext'
 import ProductCard from '../components/ProductCard'
 
 const categoryGradients = {
-  transformacoes: 'from-yellow-500 to-orange-500',
+  transformacoes: 'from-sky-500 to-cyan-500',
   vip: 'from-purple-500 to-pink-500',
-  moedas: 'from-yellow-400 to-amber-600',
+  moedas: 'from-sky-400 to-cyan-600',
   kits: 'from-green-500 to-teal-500',
 }
 
@@ -29,7 +29,7 @@ const badgeStyles = {
   POPULAR: 'bg-orange-500 text-white',
   DESTAQUE: 'bg-blue-500 text-white',
   PREMIUM: 'bg-purple-600 text-white',
-  VIP: 'bg-yellow-500 text-black',
+  VIP: 'bg-sky-500 text-black',
   OFERTA: 'bg-green-500 text-white',
   NOVO: 'bg-cyan-500 text-white',
 }
@@ -51,9 +51,9 @@ export default function ProductPage() {
   if (!product) {
     return (
       <div className="min-h-screen bg-db-dark">
-        <div className="border-b border-db-border bg-gradient-to-b from-yellow-950/10 to-transparent">
+        <div className="border-b border-db-border bg-gradient-to-b from-sky-950/10 to-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
+            <p className="text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
               Solo Z
             </p>
             <h1 className="font-gaming text-3xl font-bold text-white">Produto</h1>
@@ -70,7 +70,7 @@ export default function ProductPage() {
           </p>
           <Link
             to="/shop"
-            className="inline-block bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold px-6 py-3 rounded-xl hover:from-yellow-400 hover:to-orange-400 transition-all"
+            className="inline-block bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-bold px-6 py-3 rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all"
           >
             ← Voltar à Loja
           </Link>
@@ -108,9 +108,9 @@ export default function ProductPage() {
       </div>
 
       {/* Cabeçalho da página */}
-      <div className="relative bg-gradient-to-b from-yellow-950/10 to-transparent">
+      <div className="relative bg-gradient-to-b from-sky-950/10 to-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
+          <p className="text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
             Solo Z
           </p>
           <h1 className="font-gaming text-3xl font-bold text-white">{product.name}</h1>
@@ -187,7 +187,7 @@ export default function ProductPage() {
             {/* Preço e botão */}
             <div className="bg-db-card border border-db-border rounded-2xl p-5 mt-auto">
               <div className="flex items-baseline gap-2 mb-4">
-                <span className="font-gaming text-4xl font-black text-yellow-400">
+                <span className="font-gaming text-4xl font-black text-sky-400">
                   R$ {product.price.toFixed(2)}
                 </span>
                 <span className="text-gray-600 text-sm">por unidade</span>
@@ -198,7 +198,7 @@ export default function ProductPage() {
                 className={`w-full py-4 rounded-xl font-black text-base transition-all duration-300 ${
                   added
                     ? 'bg-green-500/20 border border-green-500/40 text-green-400'
-                    : 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black hover:from-yellow-400 hover:to-orange-400 hover:shadow-xl hover:shadow-orange-500/25 hover:-translate-y-0.5'
+                    : 'bg-gradient-to-r from-sky-500 to-cyan-500 text-black hover:from-sky-400 hover:to-cyan-400 hover:shadow-xl hover:shadow-sky-500/25 hover:-translate-y-0.5'
                 }`}
               >
                 {added ? '✅ Adicionado ao Carrinho!' : '🛒 Adicionar ao Carrinho'}

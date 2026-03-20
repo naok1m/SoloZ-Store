@@ -29,9 +29,9 @@ export default function Cart() {
   if (orderPlaced) {
     return (
       <div className="min-h-screen bg-db-dark">
-        <div className="border-b border-db-border bg-gradient-to-b from-yellow-950/10 to-transparent">
+        <div className="border-b border-db-border bg-gradient-to-b from-sky-950/10 to-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
+            <p className="text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
               Solo Z
             </p>
             <h1 className="font-gaming text-3xl font-bold text-white">Pedido</h1>
@@ -49,7 +49,7 @@ export default function Cart() {
           </h2>
           <p className="text-gray-400 mb-1 text-sm">
             Obrigado,{' '}
-            <span className="text-yellow-400 font-bold">{nickname}</span>!
+            <span className="text-sky-400 font-bold">{nickname}</span>!
           </p>
           <p className="text-gray-600 text-xs mb-8 leading-relaxed">
             Este é apenas um protótipo visual. Em produção, o pagamento seria
@@ -66,7 +66,7 @@ export default function Cart() {
             <Link
               to="/shop"
               onClick={clearCart}
-              className="flex-1 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black rounded-xl hover:from-yellow-400 hover:to-orange-400 transition-all text-sm"
+              className="flex-1 py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all text-sm"
             >
               Continuar Comprando
             </Link>
@@ -81,9 +81,9 @@ export default function Cart() {
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-db-dark">
-        <div className="border-b border-db-border bg-gradient-to-b from-yellow-950/10 to-transparent">
+        <div className="border-b border-db-border bg-gradient-to-b from-sky-950/10 to-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
+            <p className="text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
               Solo Z
             </p>
             <h1 className="font-gaming text-3xl font-bold text-white">Carrinho</h1>
@@ -104,7 +104,7 @@ export default function Cart() {
           </p>
           <Link
             to="/shop"
-            className="inline-block bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black px-8 py-3 rounded-xl hover:from-yellow-400 hover:to-orange-400 transition-all"
+            className="inline-block bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black px-8 py-3 rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all"
           >
             Ir para a Loja
           </Link>
@@ -118,9 +118,9 @@ export default function Cart() {
     <div className="min-h-screen bg-db-dark">
 
       {/* Cabeçalho */}
-      <div className="border-b border-db-border bg-gradient-to-b from-yellow-950/10 to-transparent">
+      <div className="border-b border-db-border bg-gradient-to-b from-sky-950/10 to-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <p className="text-amber-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
+          <p className="text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
             Solo Z
           </p>
           <h1 className="font-gaming text-3xl font-bold text-white">Carrinho</h1>
@@ -166,7 +166,7 @@ export default function Cart() {
                   if (error) setError('')
                 }}
                 className={`w-full bg-db-dark border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none transition-colors ${
-                  error ? 'border-red-500/50 focus:border-red-500/70' : 'border-db-border focus:border-yellow-500/40'
+                  error ? 'border-red-500/50 focus:border-red-500/70' : 'border-db-border focus:border-sky-500/40'
                 }`}
               />
               {error && (
@@ -200,7 +200,7 @@ export default function Cart() {
               <div className="border-t border-db-border pt-3 mb-5">
                 <div className="flex justify-between items-baseline">
                   <span className="text-gray-400 font-semibold text-sm">Total</span>
-                  <span className="font-gaming text-2xl font-black text-yellow-400">
+                  <span className="font-gaming text-2xl font-black text-sky-400">
                     R$ {totalPrice.toFixed(2)}
                   </span>
                 </div>
@@ -220,7 +220,7 @@ export default function Cart() {
 
               <button
                 onClick={handleCheckout}
-                className="w-full py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black rounded-xl hover:from-yellow-400 hover:to-orange-400 transition-all hover:shadow-xl hover:shadow-orange-500/25 hover:-translate-y-0.5 text-sm"
+                className="w-full py-4 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all hover:shadow-xl hover:shadow-sky-500/25 hover:-translate-y-0.5 text-sm"
               >
                 Finalizar Compra
               </button>

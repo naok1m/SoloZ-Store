@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        'db-dark': '#0a0a14',
-        'db-card': '#16162a',
-        'db-border': '#2d2d4e',
+        'db-dark': '#151518',
+        'db-card': '#1b1b22',
+        'db-border': '#2a2a35',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],

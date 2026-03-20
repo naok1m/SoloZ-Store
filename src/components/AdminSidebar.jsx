@@ -58,7 +58,7 @@ export default function AdminSidebar() {
           <img
             src={logo}
             alt="Logo da Solo Z"
-            className="w-6 h-6 rounded object-contain"
+            className="w-7 h-7 rounded object-contain"
           />
           <span className="font-gaming text-sm font-black text-white">Solo Z</span>
         </Link>
@@ -75,14 +75,14 @@ export default function AdminSidebar() {
               to={item.to}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl font-rajdhani font-semibold text-sm transition-all ${
                 active
-                  ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 border border-yellow-500/30'
+                  ? 'bg-gradient-to-r from-sky-500/20 to-cyan-500/20 text-sky-300 border border-sky-500/30'
                   : 'text-gray-500 hover:bg-white/5 hover:text-white'
               }`}
             >
               <span className="text-base"><MenuIcon type={item.icon} /></span>
               {item.label}
               {active && (
-                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-yellow-400" />
+                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-sky-400" />
               )}
             </Link>
           )
