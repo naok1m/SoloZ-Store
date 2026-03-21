@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { products, categories } from '../data/products'
+import { categories } from '../data/products'
+import { useProducts } from '../context/ProductsContext'
 import ProductCard from '../components/ProductCard'
 
 export default function Shop() {
+  const { products, loading, error } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeCategory, setActiveCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
@@ -121,7 +123,15 @@ export default function Shop() {
         </p>
 
         {/* Grid de produtos */}
-        {filtered.length > 0 ? (
+        {error && (
+          <p className="text-red-400 text-sm mb-4">{error}</p>
+        )}
+
+        {loading ? (
+          <div className="text-center py-16">
+            <p className="text-gray-500 text-sm">Carregando produtos...</p>
+          </div>
+        ) : filtered.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filtered.map((product) => (
               <ProductCard key={product.id} product={product} />

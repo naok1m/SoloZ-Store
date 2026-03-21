@@ -1,18 +1,32 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { api } from '../lib/api'
 import CartItem from '../components/CartItem'
 
-// Métodos de pagamento decorativos (apenas visual)
-const paymentMethods = ['💳 Cartão', '🏦 PIX', '📱 Boleto']
+const paymentMethods = [
+  { id: 'card', label: '💳 Cartao' },
+  { id: 'pix', label: '🏦 PIX' },
+  { id: 'boleto', label: '📱 Boleto' },
+]
+
+const paymentTitles = {
+  pix: 'Pagamento Pix',
+  boleto: 'Pagamento Boleto',
+  card: 'Pagamento Cartao',
+}
 
 export default function Cart() {
   const { cartItems, totalPrice, totalItems, clearCart } = useCart()
   const [nickname, setNickname] = useState('')
-  const [orderPlaced, setOrderPlaced] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState('pix')
+  const [payerEmail, setPayerEmail] = useState('')
   const [error, setError] = useState('')
+  const [checkoutError, setCheckoutError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [payments, setPayments] = useState([])
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!nickname.trim()) {
       setError('Insira seu nickname do Minecraft para continuar.')
       return
@@ -22,11 +36,42 @@ export default function Cart() {
       return
     }
     setError('')
-    setOrderPlaced(true)
+    setCheckoutError('')
+    setIsSubmitting(true)
+
+    try {
+      const createdPayments = []
+      for (const item of cartItems) {
+        const totalOrders = Math.max(1, item.quantity)
+        for (let i = 0; i < totalOrders; i += 1) {
+          const data = await api.createOrder({
+            productId: item.id,
+            playerNickname: nickname.trim(),
+            paymentMethod,
+            payerEmail: payerEmail || undefined,
+          })
+
+          createdPayments.push({
+            item,
+            order: data.order,
+            payment: data.payment,
+          })
+        }
+      }
+
+      setPayments(createdPayments)
+    } catch (err) {
+      setCheckoutError(err.message || 'Nao foi possivel iniciar o pagamento.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  // Tela de sucesso pós-compra
-  if (orderPlaced) {
+  // Tela de pagamento
+  if (payments.length > 0) {
+    const primaryPayment = payments[0]
+    const isFree = primaryPayment.payment?.method === 'free' || primaryPayment.payment?.status === 'approved'
+
     return (
       <div className="min-h-screen bg-db-dark">
         <div className="border-b border-db-border bg-gradient-to-b from-sky-950/10 to-transparent">
@@ -34,43 +79,83 @@ export default function Cart() {
             <p className="text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
               Solo Z
             </p>
-            <h1 className="font-gaming text-3xl font-bold text-white">Pedido</h1>
-            <p className="text-gray-500 text-sm mt-1">Compra finalizada com sucesso</p>
+            <h1 className="font-gaming text-3xl font-bold text-white">
+              {isFree ? 'Sucesso!' : (paymentTitles[paymentMethod] || 'Pagamento')}
+            </h1>
+            <p className="text-gray-500 text-sm mt-1">
+              {isFree ? 'Seu item foi resgatado e está sendo entregue.' : 'Escaneie o QR Code para concluir'}
+            </p>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex justify-center">
           <div className="bg-db-card border border-db-border rounded-2xl p-10 text-center max-w-md w-full">
-          <div className="w-20 h-20 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
-            🎉
-          </div>
-          <h2 className="font-gaming text-2xl font-black text-white mb-2">
-            Pedido Realizado!
-          </h2>
-          <p className="text-gray-400 mb-1 text-sm">
-            Obrigado,{' '}
-            <span className="text-sky-400 font-bold">{nickname}</span>!
-          </p>
-          <p className="text-gray-600 text-xs mb-8 leading-relaxed">
-            Este é apenas um protótipo visual. Em produção, o pagamento seria
-            processado e os itens entregues automaticamente no servidor.
-          </p>
-          <div className="flex gap-3">
-            <Link
-              to="/"
-              onClick={clearCart}
-              className="flex-1 py-3 border border-db-border text-gray-400 rounded-xl hover:border-gray-500 hover:text-gray-300 transition-all text-sm font-semibold"
-            >
-              Início
-            </Link>
-            <Link
-              to="/shop"
-              onClick={clearCart}
-              className="flex-1 py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all text-sm"
-            >
-              Continuar Comprando
-            </Link>
-          </div>
+            <div className="w-20 h-20 bg-sky-500/15 border border-sky-500/30 rounded-full flex items-center justify-center text-3xl mx-auto mb-6">
+              {isFree ? '✅' : '💠'}
+            </div>
+            <h2 className="font-gaming text-2xl font-black text-white mb-2">
+              {isFree ? 'Resgate concluído' : 'Pagamento em aberto'}
+            </h2>
+            <p className="text-gray-400 mb-5 text-sm">
+              Nick: <span className="text-sky-400 font-bold">{nickname}</span>
+            </p>
+
+            {!isFree && primaryPayment.payment?.qrCodeBase64 && (
+              <img
+                src={`data:image/png;base64,${primaryPayment.payment.qrCodeBase64}`}
+                alt="QR Code Pix"
+                className="w-48 h-48 mx-auto mb-4 rounded-xl border border-db-border bg-white p-2"
+              />
+            )}
+
+            {!isFree && primaryPayment.payment?.ticketUrl && (
+              <a
+                href={primaryPayment.payment.ticketUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-sky-500 text-black font-black text-base px-6 py-3 rounded-xl hover:bg-sky-400 transition-all w-full"
+              >
+                Abrir boleto / comprovante
+              </a>
+            )}
+
+            {!isFree && primaryPayment.payment?.checkoutUrl && (
+              <a
+                href={primaryPayment.payment.checkoutUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-sky-500 text-black font-black text-base px-6 py-3 rounded-xl hover:bg-sky-400 transition-all w-full"
+              >
+                Ir para checkout do cartao
+              </a>
+            )}
+
+            <div className="text-left mt-6">
+              <p className="text-xs text-gray-500 mb-2">Pedidos criados:</p>
+              <div className="space-y-2">
+                {payments.map((entry) => (
+                  <div key={entry.order.id} className="flex items-center justify-between text-xs text-gray-400">
+                    <span className="truncate mr-2">{entry.item.name}</span>
+                    <span className="text-gray-500">{isFree ? 'Grátis' : entry.payment?.method} · {entry.payment?.status}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <Link
+                to="/"
+                className="flex-1 py-3 border border-db-border text-gray-400 rounded-xl hover:border-gray-500 hover:text-gray-300 transition-all text-sm font-semibold"
+              >
+                Início
+              </Link>
+              <Link
+                to="/shop"
+                className="flex-1 py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all text-sm"
+              >
+                Continuar Comprando
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -172,6 +257,13 @@ export default function Cart() {
               {error && (
                 <p className="text-red-400 text-xs mt-1.5">⚠️ {error}</p>
               )}
+              <input
+                type="email"
+                placeholder="Seu email (opcional)"
+                value={payerEmail}
+                onChange={(e) => setPayerEmail(e.target.value)}
+                className="mt-2 w-full bg-db-dark border border-db-border rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-sky-500/40 transition-colors"
+              />
               <p className="text-gray-600 text-xs mt-2">
                 Use exatamente como aparece no jogo
               </p>
@@ -201,29 +293,43 @@ export default function Cart() {
                 <div className="flex justify-between items-baseline">
                   <span className="text-gray-400 font-semibold text-sm">Total</span>
                   <span className="font-gaming text-2xl font-black text-sky-400">
-                    R$ {totalPrice.toFixed(2)}
+                    {totalPrice === 0 ? 'Grátis' : `R$ ${totalPrice.toFixed(2)}`}
                   </span>
                 </div>
               </div>
 
-              {/* Métodos de pagamento (visual) */}
-              <div className="flex gap-2 mb-4">
-                {paymentMethods.map((method) => (
-                  <span
-                    key={method}
-                    className="flex-1 text-center text-xs bg-db-dark border border-db-border rounded-lg py-1.5 text-gray-500"
-                  >
-                    {method}
-                  </span>
-                ))}
-              </div>
+              {/* Métodos de pagamento */}
+              {totalPrice > 0 && (
+                <div className="flex gap-2 mb-4">
+                  {paymentMethods.map((method) => (
+                    <button
+                      key={method.id}
+                      onClick={() => setPaymentMethod(method.id)}
+                      type="button"
+                      className={`flex-1 text-center text-xs border rounded-lg py-1.5 transition-colors ${
+                        paymentMethod === method.id
+                          ? 'bg-sky-500/20 border-sky-500/40 text-sky-300'
+                          : 'bg-db-dark border-db-border text-gray-500 hover:text-gray-300'
+                      }`}
+                    >
+                      {method.label}
+                    </button>
+                  ))}
+                </div>
+              )}
 
               <button
                 onClick={handleCheckout}
-                className="w-full py-4 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all hover:shadow-xl hover:shadow-sky-500/25 hover:-translate-y-0.5 text-sm"
+                disabled={isSubmitting}
+                className="w-full py-4 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all hover:shadow-xl hover:shadow-sky-500/25 hover:-translate-y-0.5 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Finalizar Compra
+                {isSubmitting 
+                  ? (totalPrice === 0 ? 'Resgatando...' : 'Gerando pagamento...') 
+                  : (totalPrice === 0 ? 'Resgatar Agora' : 'Finalizar Compra')}
               </button>
+              {checkoutError && (
+                <p className="text-red-400 text-xs text-center mt-2">⚠️ {checkoutError}</p>
+              )}
               <p className="text-gray-600 text-xs text-center mt-2 flex items-center justify-center gap-1">
                 🔒 Ambiente seguro
               </p>

@@ -1,11 +1,17 @@
 import { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
+  const navigate = useNavigate()
   const cardRef = useRef(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0, active: false })
+
+  const handleBuyNow = () => {
+    addToCart(product)
+    navigate('/cart')
+  }
 
   const handleMouseMove = (e) => {
     const rect = cardRef.current.getBoundingClientRect()
@@ -73,7 +79,7 @@ export default function ProductCard({ product }) {
               Ver
             </Link>
             <button
-              onClick={() => addToCart(product)}
+              onClick={handleBuyNow}
               className="text-sm px-3 py-1.5 bg-sky-500 text-black font-bold rounded-lg hover:bg-sky-400 transition-colors"
             >
               Comprar

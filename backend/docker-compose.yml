@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: soloz
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/soloz
+      JWT_SECRET: change-me
+      MP_ACCESS_TOKEN: your-mercadopago-access-token
+      RCON_HOST: 127.0.0.1
+      RCON_PORT: 25575
+      RCON_PASSWORD: your-rcon-password
+      PORT: 4000
+      WEBHOOK_TOKEN: your-webhook-token
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    command: sh -c "npx prisma migrate deploy && node src/server.js"
+
+volumes:
+  db_data:

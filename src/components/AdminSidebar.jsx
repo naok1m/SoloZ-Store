@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import logo from '../assets/Logo.png'
 
 const menuItems = [
@@ -47,6 +48,7 @@ function MenuIcon({ type }) {
 }
 
 export default function AdminSidebar() {
+  const { logout } = useAuth()
   const location = useLocation()
 
   return (
@@ -91,6 +93,13 @@ export default function AdminSidebar() {
 
       {/* Rodapé da sidebar */}
       <div className="p-4 border-t border-db-border">
+        <button
+          onClick={logout}
+          className="w-full flex items-center gap-2 text-red-400/80 hover:text-red-300 text-sm transition-colors mb-3"
+        >
+          <span>⏻</span>
+          Sair do admin
+        </button>
         <Link
           to="/"
           className="flex items-center gap-2 text-gray-600 hover:text-gray-400 text-sm transition-colors"

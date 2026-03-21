@@ -1,21 +1,31 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 import logo from '../../assets/Logo.png'
 
 export default function AdminLogin() {
+  const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const navigate = useNavigate()
+  const location = useLocation()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('')
     setLoading(true)
-    // Simula autenticação (protótipo visual — qualquer credencial é aceita)
-    setTimeout(() => {
+
+    try {
+      await login(email, password)
+      const redirectTo = location.state?.from || '/admin/dashboard'
+      navigate(redirectTo, { replace: true })
+    } catch (err) {
+      setError(err.message || 'Falha ao autenticar.')
+    } finally {
       setLoading(false)
-      navigate('/admin/dashboard')
-    }, 1200)
+    }
   }
 
   return (
@@ -96,12 +106,11 @@ export default function AdminLogin() {
               )}
             </button>
           </form>
-
-          <div className="mt-5 p-3 bg-sky-500/5 border border-sky-500/10 rounded-xl">
-            <p className="text-sky-400/70 text-xs text-center">
-              Protótipo visual: qualquer credencial será aceita.
-            </p>
-          </div>
+          {error && (
+            <div className="mt-5 p-3 bg-red-500/5 border border-red-500/20 rounded-xl">
+              <p className="text-red-400 text-xs text-center">{error}</p>
+            </div>
+          )}
         </div>
 
         <div className="text-center mt-6">

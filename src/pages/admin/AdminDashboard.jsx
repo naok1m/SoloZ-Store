@@ -1,22 +1,25 @@
-import { useLocation } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation, Link } from 'react-router-dom'
 import AdminSidebar from '../../components/AdminSidebar'
 import AdminTable from '../../components/AdminTable'
-import { products } from '../../data/products'
+import { useAuth } from '../../context/AuthContext'
+import { api } from '../../lib/api'
 
-// Dados mockados para o dashboard
-const dashboardStats = [
-  { label: 'Produtos Ativos', value: products.length, icon: 'products', trend: '+2 esta semana', color: 'from-sky-500 to-cyan-500' },
-  { label: 'Pedidos Hoje', value: '24', icon: 'orders', trend: '+8 vs ontem', color: 'from-blue-500 to-cyan-500' },
-  { label: 'Receita Total', value: 'R$ 4.890', icon: 'money', trend: '+12% este mês', color: 'from-green-500 to-teal-500' },
-  { label: 'Jogadores Únicos', value: '312', icon: 'users', trend: '+45 esta semana', color: 'from-purple-500 to-pink-500' },
-]
+const categoryLabels = {
+  transformacoes: 'Transformacoes',
+  vip: 'VIP',
+  moedas: 'Moedas Zeni',
+  kits: 'Kits',
+  outros: 'Outros',
+}
 
-const categoryChart = [
-  { label: 'Transformações', percent: 72, icon: 'transformacoes', color: 'from-sky-500 to-cyan-500' },
-  { label: 'VIP', percent: 55, icon: 'vip', color: 'from-purple-500 to-pink-500' },
-  { label: 'Moedas Zeni', percent: 40, icon: 'moedas', color: 'from-sky-400 to-cyan-600' },
-  { label: 'Kits', percent: 28, icon: 'kits', color: 'from-green-500 to-teal-500' },
-]
+const categoryColors = {
+  transformacoes: 'from-sky-500 to-cyan-500',
+  vip: 'from-purple-500 to-pink-500',
+  moedas: 'from-sky-400 to-cyan-600',
+  kits: 'from-green-500 to-teal-500',
+  outros: 'from-slate-500 to-slate-300',
+}
 
 function Icon({ type, className = 'w-4 h-4' }) {
   if (type === 'products') {
@@ -33,7 +36,7 @@ function Icon({ type, className = 'w-4 h-4' }) {
       </svg>
     )
   }
-  if (type === 'money' || type === 'moedas') {
+  if (type === 'money') {
     return (
       <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8c-1.7 0-3 .9-3 2s1.3 2 3 2 3 .9 3 2-1.3 2-3 2m0-8V7m0 9v1m9-5a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -44,27 +47,6 @@ function Icon({ type, className = 'w-4 h-4' }) {
     return (
       <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H4v-2a4 4 0 015-3.87m8-5a4 4 0 11-8 0 4 4 0 018 0zm-10 0a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    )
-  }
-  if (type === 'transformacoes') {
-    return (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    )
-  }
-  if (type === 'vip') {
-    return (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 16L3 6l5 3 4-5 4 5 5-3-2 10H5z" />
-      </svg>
-    )
-  }
-  if (type === 'kits') {
-    return (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
       </svg>
     )
   }
@@ -82,22 +64,21 @@ function Icon({ type, className = 'w-4 h-4' }) {
       </svg>
     )
   }
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="8" strokeWidth={1.8} />
-    </svg>
-  )
+  return <span className={className}>•</span>
 }
 
-const recentOrders = [
-  { id: '#1043', player: 'SaiyajinBR', product: 'Super Saiyajin Blue', value: 'R$ 39,90', status: 'Entregue', time: 'há 5 min' },
-  { id: '#1042', player: 'GokuFan99', product: 'Ultra Instinct', value: 'R$ 59,90', status: 'Entregue', time: 'há 12 min' },
-  { id: '#1041', player: 'VegetaSSB', product: 'VIP Saiyajin', value: 'R$ 79,90', status: 'Pendente', time: 'há 30 min' },
-  { id: '#1040', player: 'DBZPlayer', product: 'Moedas Zeni (5.000)', value: 'R$ 34,90', status: 'Entregue', time: 'há 45 min' },
-  { id: '#1039', player: 'NamekBR', product: 'VIP Namekusei', value: 'R$ 69,90', status: 'Entregue', time: 'há 1h' },
-]
+const timeAgo = (isoDate) => {
+  const created = new Date(isoDate).getTime()
+  const diffMs = Math.max(0, Date.now() - created)
+  const min = Math.floor(diffMs / 60000)
+  if (min < 1) return 'agora'
+  if (min < 60) return `ha ${min} min`
+  const hours = Math.floor(min / 60)
+  if (hours < 24) return `ha ${hours}h`
+  const days = Math.floor(hours / 24)
+  return `ha ${days}d`
+}
 
-// Placeholder para rotas que ainda não têm conteúdo
 function PlaceholderPage({ title, icon }) {
   return (
     <div className="flex-1 flex items-center justify-center">
@@ -106,16 +87,77 @@ function PlaceholderPage({ title, icon }) {
           <Icon type={icon} className="w-6 h-6" />
         </span>
         <h2 className="font-gaming text-xl font-bold text-white mb-2">{title}</h2>
-        <p className="text-gray-600 text-sm">Esta seção será implementada na versão completa.</p>
+        <p className="text-gray-600 text-sm">Esta seção sera implementada na versao completa.</p>
       </div>
     </div>
   )
 }
 
 export default function AdminDashboard() {
+  const { token } = useAuth()
   const location = useLocation()
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [data, setData] = useState({
+    stats: {
+      activeProducts: 0,
+      ordersToday: 0,
+      revenueTotal: 0,
+      uniquePlayers: 0,
+    },
+    topProducts: [],
+    salesByCategory: [],
+    recentOrders: [],
+  })
 
-  // Renderiza conteúdo baseado na rota atual
+  const loadDashboard = async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const response = await api.getAdminDashboard(token)
+      setData(response)
+    } catch (err) {
+      setError(err.message || 'Falha ao carregar dados do dashboard.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!token) return
+    loadDashboard()
+  }, [token])
+
+  const dashboardStats = useMemo(
+    () => [
+      {
+        label: 'Produtos Ativos',
+        value: String(data.stats.activeProducts),
+        icon: 'products',
+        trend: 'dados reais',
+      },
+      {
+        label: 'Pedidos Hoje',
+        value: String(data.stats.ordersToday),
+        icon: 'orders',
+        trend: 'atualizado agora',
+      },
+      {
+        label: 'Receita Total',
+        value: `R$ ${Number(data.stats.revenueTotal || 0).toFixed(2)}`,
+        icon: 'money',
+        trend: 'pedidos pagos',
+      },
+      {
+        label: 'Jogadores Unicos',
+        value: String(data.stats.uniquePlayers),
+        icon: 'users',
+        trend: 'base total',
+      },
+    ],
+    [data]
+  )
+
   const renderContent = () => {
     switch (location.pathname) {
       case '/admin/products':
@@ -129,9 +171,18 @@ export default function AdminDashboard() {
       case '/admin/categories':
         return <PlaceholderPage title="Categorias" icon="categories" />
       case '/admin/settings':
-        return <PlaceholderPage title="Configurações" icon="settings" />
+        return <PlaceholderPage title="Configuracoes" icon="settings" />
       default:
-        return <DashboardContent />
+        return (
+          <DashboardContent
+            loading={loading}
+            error={error}
+            dashboardStats={dashboardStats}
+            topProducts={data.topProducts}
+            salesByCategory={data.salesByCategory}
+            recentOrders={data.recentOrders}
+          />
+        )
     }
   }
 
@@ -143,81 +194,64 @@ export default function AdminDashboard() {
   )
 }
 
-function DashboardContent() {
+function DashboardContent({ loading, error, dashboardStats, topProducts, salesByCategory, recentOrders }) {
   return (
     <div className="flex-1 p-8 overflow-auto">
-
-      {/* Cabeçalho */}
       <div className="mb-8">
         <h1 className="font-gaming text-2xl font-black text-white">Dashboard</h1>
         <p className="text-gray-500 text-sm mt-1">Bem-vindo ao painel administrativo</p>
       </div>
 
-      {/* Grid de estatísticas */}
+      {error && <p className="text-red-400 text-xs mb-5">{error}</p>}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
         {dashboardStats.map((stat) => (
-          <div
-            key={stat.label}
-            className="bg-db-card border border-db-border rounded-xl p-5 hover:border-sky-500/20 transition-colors"
-          >
+          <div key={stat.label} className="bg-db-card border border-db-border rounded-xl p-5 hover:border-sky-500/20 transition-colors">
             <div className="flex items-start justify-between mb-4">
               <span className="text-gray-300"><Icon type={stat.icon} className="w-6 h-6" /></span>
-              <span className="text-xs text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-lg">
-                {stat.trend}
-              </span>
+              <span className="text-xs text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded-lg">{stat.trend}</span>
             </div>
-            <p className="font-gaming text-2xl font-black text-white mb-0.5">{stat.value}</p>
+            <p className="font-gaming text-2xl font-black text-white mb-0.5">{loading ? '...' : stat.value}</p>
             <p className="text-gray-600 text-xs">{stat.label}</p>
           </div>
         ))}
       </div>
 
-      {/* Dois painéis: Tabela de produtos + Pedidos recentes */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
-
-        {/* Mini tabela de produtos */}
         <div className="bg-db-card border border-db-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-gaming text-sm font-bold text-white">Top Produtos</h2>
-            <a href="/admin/products" className="text-sky-500/70 text-xs hover:text-sky-400 transition-colors">
-              Ver todos →
-            </a>
+            <Link to="/admin/products" className="text-sky-500/70 text-xs hover:text-sky-400 transition-colors">Ver todos →</Link>
           </div>
           <div className="space-y-3">
-            {products.slice(0, 5).map((product) => (
+            {!loading && topProducts.length === 0 && <p className="text-gray-500 text-xs">Sem dados ainda.</p>}
+            {topProducts.map((product) => (
               <div key={product.id} className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-db-dark border border-db-border rounded-lg flex items-center justify-center flex-shrink-0 text-gray-300">
-                  <Icon type={product.category} className="w-4 h-4" />
+                  <span>📦</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-white text-xs font-semibold truncate">{product.name}</p>
-                  <p className="text-gray-600 text-xs">{product.category}</p>
+                  <p className="text-gray-600 text-xs">{categoryLabels[product.category] || 'Sem categoria'}</p>
                 </div>
-                <span className="text-sky-400 font-black text-xs flex-shrink-0">
-                  R$ {product.price.toFixed(2)}
-                </span>
+                <span className="text-sky-400 font-black text-xs flex-shrink-0">R$ {Number(product.price).toFixed(2)}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Gráfico de barras decorativo */}
         <div className="bg-db-card border border-db-border rounded-xl p-5">
           <h2 className="font-gaming text-sm font-bold text-white mb-4">Vendas por Categoria</h2>
           <div className="space-y-3">
-            {categoryChart.map((item) => (
-              <div key={item.label}>
+            {!loading && salesByCategory.length === 0 && <p className="text-gray-500 text-xs">Sem vendas pagas ainda.</p>}
+            {salesByCategory.map((item) => (
+              <div key={item.category}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-gray-400 text-xs flex items-center gap-1.5">
-                    <Icon type={item.icon} className="w-3.5 h-3.5" /> {item.label}
-                  </span>
+                  <span className="text-gray-400 text-xs">{categoryLabels[item.category] || item.category}</span>
                   <span className="text-gray-500 text-xs">{item.percent}%</span>
                 </div>
                 <div className="h-2 bg-db-dark rounded-full overflow-hidden">
-                  <div
-                    className={`h-full bg-gradient-to-r ${item.color} rounded-full`}
-                    style={{ width: `${item.percent}%` }}
-                  />
+                  <div className={`h-full bg-gradient-to-r ${categoryColors[item.category] || categoryColors.outros} rounded-full`} style={{ width: `${item.percent}%` }} />
                 </div>
               </div>
             ))}
@@ -225,13 +259,10 @@ function DashboardContent() {
         </div>
       </div>
 
-      {/* Pedidos recentes */}
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-gaming text-lg font-bold text-white">Pedidos Recentes</h2>
-          <a href="/admin/orders" className="text-sky-500/70 text-xs hover:text-sky-400 transition-colors">
-            Ver todos →
-          </a>
+          <Link to="/admin/orders" className="text-sky-500/70 text-xs hover:text-sky-400 transition-colors">Ver todos →</Link>
         </div>
 
         <div className="bg-db-card border border-db-border rounded-xl overflow-hidden">
@@ -240,39 +271,28 @@ function DashboardContent() {
               <thead>
                 <tr className="border-b border-db-border bg-db-dark/40">
                   {['Pedido', 'Jogador', 'Produto', 'Valor', 'Status', 'Hora'].map((col) => (
-                    <th
-                      key={col}
-                      className="text-left px-4 py-3 text-gray-600 text-xs font-semibold uppercase tracking-wider whitespace-nowrap"
-                    >
-                      {col}
-                    </th>
+                    <th key={col} className="text-left px-4 py-3 text-gray-600 text-xs font-semibold uppercase tracking-wider whitespace-nowrap">{col}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
+                {!loading && recentOrders.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-6 text-center text-gray-500 text-sm">Nenhum pedido registrado.</td>
+                  </tr>
+                )}
                 {recentOrders.map((order, idx) => (
-                  <tr
-                    key={order.id}
-                    className={`hover:bg-white/5 transition-colors ${
-                      idx < recentOrders.length - 1 ? 'border-b border-db-border/50' : ''
-                    }`}
-                  >
-                    <td className="px-4 py-3 text-gray-500 text-xs font-mono">{order.id}</td>
-                    <td className="px-4 py-3 text-white text-sm font-semibold whitespace-nowrap">{order.player}</td>
-                    <td className="px-4 py-3 text-gray-400 text-sm whitespace-nowrap">{order.product}</td>
-                    <td className="px-4 py-3 text-sky-400 font-black text-sm whitespace-nowrap">{order.value}</td>
+                  <tr key={order.id} className={`hover:bg-white/5 transition-colors ${idx < recentOrders.length - 1 ? 'border-b border-db-border/50' : ''}`}>
+                    <td className="px-4 py-3 text-gray-500 text-xs font-mono">#{order.id.slice(0, 8)}</td>
+                    <td className="px-4 py-3 text-white text-sm font-semibold whitespace-nowrap">{order.playerNickname}</td>
+                    <td className="px-4 py-3 text-gray-400 text-sm whitespace-nowrap">{order.productName}</td>
+                    <td className="px-4 py-3 text-sky-400 font-black text-sm whitespace-nowrap">R$ {Number(order.value).toFixed(2)}</td>
                     <td className="px-4 py-3">
-                      <span
-                        className={`text-xs px-2 py-1 rounded-lg font-semibold whitespace-nowrap ${
-                          order.status === 'Entregue'
-                            ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                            : 'bg-sky-500/10 text-sky-400 border border-sky-500/20'
-                        }`}
-                      >
+                      <span className={`text-xs px-2 py-1 rounded-lg font-semibold whitespace-nowrap ${order.status === 'delivered' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-sky-500/10 text-sky-400 border border-sky-500/20'}`}>
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-gray-600 text-xs whitespace-nowrap">{order.time}</td>
+                    <td className="px-4 py-3 text-gray-600 text-xs whitespace-nowrap">{timeAgo(order.createdAt)}</td>
                   </tr>
                 ))}
               </tbody>

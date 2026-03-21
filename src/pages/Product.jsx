@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { products } from '../data/products'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { useProducts } from '../context/ProductsContext'
 import ProductCard from '../components/ProductCard'
 
 const categoryGradients = {
@@ -43,10 +43,20 @@ const features = [
 
 export default function ProductPage() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { addToCart } = useCart()
+  const { products, loading } = useProducts()
   const [added, setAdded] = useState(false)
 
-  const product = products.find((p) => p.id === parseInt(id))
+  const product = products.find((p) => String(p.id) === String(id))
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-db-dark flex items-center justify-center">
+        <p className="text-gray-500 text-sm">Carregando produto...</p>
+      </div>
+    )
+  }
 
   if (!product) {
     return (
@@ -84,13 +94,14 @@ export default function ProductPage() {
 
   // Produtos relacionados (mesma categoria, exceto o atual)
   const related = products
-    .filter((p) => p.category === product.category && p.id !== product.id)
+    .filter((p) => p.category === product.category && String(p.id) !== String(product.id))
     .slice(0, 3)
 
   const handleAddToCart = () => {
     addToCart(product)
     setAdded(true)
     setTimeout(() => setAdded(false), 2500)
+    navigate('/cart')
   }
 
   return (

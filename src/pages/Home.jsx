@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { products, categories } from '../data/products'
+import { categories } from '../data/products'
+import { useProducts } from '../context/ProductsContext'
 import ProductCard from '../components/ProductCard'
 import CategoryCard from '../components/CategoryCard'
 import heroBg from '../assets/hero-back.jpg'
@@ -19,10 +20,11 @@ const KI_ORBS = [
 
 
 export default function Home() {
+  const { products, loading } = useProducts()
   const [ipCopied, setIpCopied] = useState(false)
   const logoCardRef = useRef(null)
   const [logoTilt, setLogoTilt] = useState({ x: 0, y: 0, active: false })
-  const popularProducts = products.filter((p) => p.popular)
+  const popularProducts = products.filter((p) => p.popular).slice(0, 4)
 
   const copyIp = () => {
     navigator.clipboard.writeText('soloz.jogar.co')
@@ -246,7 +248,10 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {popularProducts.map((product) => (
+          {loading && (
+            <p className="text-gray-500 text-sm">Carregando produtos...</p>
+          )}
+          {!loading && popularProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
