@@ -47,24 +47,29 @@ function MenuIcon({ type }) {
   )
 }
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ onClose }) {
   const { logout } = useAuth()
   const location = useLocation()
 
   return (
-    <aside className="w-64 bg-db-card border-r border-db-border min-h-screen flex flex-col flex-shrink-0">
+    <aside className="w-64 bg-db-card border-r border-db-border h-full min-h-screen flex flex-col flex-shrink-0">
 
       {/* Logo do painel */}
-      <div className="p-6 border-b border-db-border">
-        <Link to="/" className="flex items-center gap-2">
-          <img
-            src={logo}
-            alt="Logo da Solo Z"
-            className="w-7 h-7 rounded object-contain"
-          />
-          <span className="font-gaming text-sm font-black text-white">Solo Z</span>
-        </Link>
-        <p className="text-gray-600 text-xs mt-1">Painel Administrativo</p>
+      <div className="p-6 border-b border-db-border flex items-center justify-between">
+        <div className="flex-1">
+          <Link to="/" className="flex items-center gap-2" onClick={onClose}>
+            <img
+              src={logo}
+              alt="Logo da Solo Z"
+              className="w-7 h-7 rounded object-contain"
+            />
+            <span className="font-gaming text-sm font-black text-white">Solo Z</span>
+          </Link>
+          <p className="text-gray-600 text-xs mt-1">Painel Administrativo</p>
+        </div>
+        <button onClick={onClose} className="md:hidden text-gray-500 hover:text-white">
+           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
       </div>
 
       {/* Itens de navegação */}
@@ -75,7 +80,8 @@ export default function AdminSidebar() {
             <Link
               key={item.to}
               to={item.to}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-rajdhani font-semibold text-sm transition-all ${
+              onClick={onClose}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-rajdhani font-semibold text-sm transition-all active:scale-95 ${
                 active
                   ? 'bg-gradient-to-r from-sky-500/20 to-cyan-500/20 text-sky-300 border border-sky-500/30'
                   : 'text-gray-500 hover:bg-white/5 hover:text-white'
@@ -94,15 +100,16 @@ export default function AdminSidebar() {
       {/* Rodapé da sidebar */}
       <div className="p-4 border-t border-db-border">
         <button
-          onClick={logout}
-          className="w-full flex items-center gap-2 text-red-400/80 hover:text-red-300 text-sm transition-colors mb-3"
+          onClick={() => { logout(); if (onClose) onClose(); }}
+          className="w-full flex items-center gap-2 text-red-400/80 hover:text-red-300 text-sm transition-colors mb-3 active:scale-95 origin-left"
         >
           <span>⏻</span>
           Sair do admin
         </button>
         <Link
           to="/"
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-400 text-sm transition-colors"
+          onClick={onClose}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-400 text-sm transition-colors active:scale-95 origin-left"
         >
           <span>←</span>
           Voltar à loja

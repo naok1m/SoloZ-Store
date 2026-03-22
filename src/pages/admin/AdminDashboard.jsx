@@ -81,7 +81,7 @@ const timeAgo = (isoDate) => {
 
 function PlaceholderPage({ title, icon }) {
   return (
-    <div className="flex-1 flex items-center justify-center">
+    <div className="flex-1 flex items-center justify-center animate-fade-in-up">
       <div className="text-center">
         <span className="w-12 h-12 mb-4 mx-auto text-gray-500 flex items-center justify-center rounded-xl border border-db-border bg-db-card">
           <Icon type={icon} className="w-6 h-6" />
@@ -158,11 +158,13 @@ export default function AdminDashboard() {
     [data]
   )
 
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
   const renderContent = () => {
     switch (location.pathname) {
       case '/admin/products':
         return (
-          <div className="flex-1 p-8 overflow-auto">
+          <div className="flex-1 p-4 sm:p-8 overflow-auto animate-fade-in">
             <AdminTable />
           </div>
         )
@@ -187,16 +189,37 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-db-dark">
-      <AdminSidebar />
-      {renderContent()}
+    <div className="flex flex-col md:flex-row min-h-screen bg-db-dark">
+      {/* Mobile Topbar */}
+      <div className="md:hidden flex items-center justify-between bg-db-card border-b border-db-border p-4">
+        <h1 className="font-gaming font-black text-white">Painel Admin</h1>
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-gray-400 p-1">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={sidebarOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+          </svg>
+        </button>
+      </div>
+
+      {/* Sidebar Mobile Overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black/60 z-40 md:hidden animate-fade-in" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Sidebar Content */}
+      <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 transition-transform duration-300 ease-in-out z-50 md:z-0`}>
+        <AdminSidebar onClose={() => setSidebarOpen(false)} />
+      </div>
+
+      <div className="flex-1 overflow-auto bg-db-dark">
+        {renderContent()}
+      </div>
     </div>
   )
 }
 
 function DashboardContent({ loading, error, dashboardStats, topProducts, salesByCategory, recentOrders }) {
   return (
-    <div className="flex-1 p-8 overflow-auto">
+    <div className="flex-1 p-4 sm:p-8 overflow-auto animate-fade-in">
       <div className="mb-8">
         <h1 className="font-gaming text-2xl font-black text-white">Dashboard</h1>
         <p className="text-gray-500 text-sm mt-1">Bem-vindo ao painel administrativo</p>

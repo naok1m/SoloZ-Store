@@ -38,7 +38,7 @@ export default function Shop() {
     })
 
   return (
-    <div className="min-h-screen bg-[#151518]">
+    <div className="min-h-screen bg-[#151518] animate-fade-in">
 
       {/* Cabeçalho da página */}
       <div className="relative bg-gradient-to-b from-[#1b1b22]/70 to-transparent">
@@ -85,10 +85,10 @@ export default function Shop() {
         <div className="flex flex-wrap gap-2 mb-5">
           <button
             onClick={() => handleCategoryChange('all')}
-            className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+            className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-95 ${
               activeCategory === 'all'
-                ? 'bg-gradient-to-r from-slate-200 to-slate-400 text-black font-black'
-                : 'bg-[#1b1b22] border border-[#2a2a35] text-gray-500 hover:border-slate-400/40 hover:text-slate-300'
+                ? 'bg-gradient-to-r from-sky-400 to-cyan-400 text-black font-black shadow-[0_0_12px_rgba(56,189,248,0.4)]'
+                : 'bg-[#1b1b22] border border-[#2a2a35] text-gray-400 hover:border-slate-400/40 hover:text-white'
             }`}
           >
             Todos
@@ -97,10 +97,10 @@ export default function Shop() {
             <button
               key={cat.id}
               onClick={() => handleCategoryChange(cat.id)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-95 ${
                 activeCategory === cat.id
-                  ? 'bg-gradient-to-r from-slate-200 to-slate-400 text-black font-black'
-                  : 'bg-[#1b1b22] border border-[#2a2a35] text-gray-500 hover:border-slate-400/40 hover:text-slate-300'
+                  ? 'bg-gradient-to-r from-sky-400 to-cyan-400 text-black font-black shadow-[0_0_12px_rgba(56,189,248,0.4)]'
+                  : 'bg-[#1b1b22] border border-[#2a2a35] text-gray-400 hover:border-slate-400/40 hover:text-white'
               }`}
             >
               {cat.name}

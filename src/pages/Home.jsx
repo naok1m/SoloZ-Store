@@ -43,7 +43,7 @@ export default function Home() {
   const handleLogoLeave = () => setLogoTilt({ x: 0, y: 0, active: false })
 
   return (
-    <div className="min-h-screen bg-[#0a0a14] relative overflow-hidden">
+    <div className="min-h-screen bg-[#0a0a14] relative overflow-hidden animate-fade-in">
       
       {/* Efeitos de Fundo Global */}
       <div className="absolute inset-0 pointer-events-none">
@@ -129,7 +129,7 @@ export default function Home() {
               >
                 <Link
                   to="/shop"
-                  className="inline-flex items-center gap-2 bg-sky-500 text-black font-black text-base px-8 py-3.5 rounded-xl hover:bg-sky-400 hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(56,189,248,0.6)] transition-all w-full sm:w-auto justify-center"
+                  className="inline-flex items-center gap-2 bg-sky-500 text-black font-black text-base px-8 py-3.5 rounded-xl hover:bg-sky-400 hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(56,189,248,0.6)] transition-all w-full sm:w-auto justify-center active:scale-95"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />

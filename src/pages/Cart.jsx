@@ -79,7 +79,7 @@ export default function Cart() {
     const isFree = primaryPayment.payment?.method === 'free' || primaryPayment.payment?.status === 'approved'
 
     return (
-      <div className="min-h-screen bg-db-dark">
+      <div className="min-h-screen bg-db-dark animate-fade-in">
         <div className="border-b border-db-border bg-gradient-to-b from-sky-950/10 to-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <p className="text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
@@ -151,15 +151,15 @@ export default function Cart() {
             <div className="flex gap-3 mt-6">
               <Link
                 to="/"
-                className="flex-1 py-3 border border-db-border text-gray-400 rounded-xl hover:border-gray-500 hover:text-gray-300 transition-all text-sm font-semibold"
+                className="flex-1 py-3 border border-db-border text-gray-400 rounded-xl hover:border-gray-500 hover:text-gray-300 transition-all text-sm font-semibold active:scale-95 text-center"
               >
                 Início
               </Link>
               <Link
                 to="/shop"
-                className="flex-1 py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all text-sm"
+                className="flex-1 py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all text-sm active:scale-95 text-center"
               >
-                Continuar Comprando
+                Continuar
               </Link>
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function Cart() {
   // Carrinho vazio
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-db-dark">
+      <div className="min-h-screen bg-db-dark animate-fade-in">
         <div className="border-b border-db-border bg-gradient-to-b from-sky-950/10 to-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <p className="text-sky-300/80 text-xs font-gaming font-semibold uppercase tracking-wider mb-1">
@@ -195,7 +195,7 @@ export default function Cart() {
           </p>
           <Link
             to="/shop"
-            className="inline-block bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black px-8 py-3 rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all"
+            className="inline-block bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black px-8 py-3 rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all active:scale-95 shadow-[0_0_15px_rgba(56,189,248,0.3)]"
           >
             Ir para a Loja
           </Link>
@@ -206,7 +206,7 @@ export default function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-db-dark">
+    <div className="min-h-screen bg-db-dark animate-fade-in">
 
       {/* Cabeçalho */}
       <div className="border-b border-db-border bg-gradient-to-b from-sky-950/10 to-transparent">
@@ -327,7 +327,7 @@ export default function Cart() {
               <button
                 onClick={handleCheckout}
                 disabled={isSubmitting}
-                className="w-full py-4 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all hover:shadow-xl hover:shadow-sky-500/25 hover:-translate-y-0.5 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-gradient-to-r from-sky-500 to-cyan-500 text-black font-black rounded-xl hover:from-sky-400 hover:to-cyan-400 transition-all hover:shadow-xl hover:shadow-sky-500/25 active:scale-95 text-sm disabled:opacity-60 disabled:active:scale-100 disabled:cursor-not-allowed"
               >
                 {isSubmitting 
                   ? (totalPrice === 0 ? 'Resgatando...' : 'Gerando pagamento...') 

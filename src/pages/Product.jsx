@@ -105,7 +105,7 @@ export default function ProductPage() {
   }
 
   return (
-    <div className="min-h-screen bg-db-dark">
+    <div className="min-h-screen bg-db-dark animate-fade-in">
 
       {/* Breadcrumb */}
       <div className="border-b border-db-border/50">
@@ -206,10 +206,10 @@ export default function ProductPage() {
 
               <button
                 onClick={handleAddToCart}
-                className={`w-full py-4 rounded-xl font-black text-base transition-all duration-300 ${
+                className={`w-full py-4 rounded-xl font-black text-base transition-all duration-300 active:scale-95 ${
                   added
-                    ? 'bg-green-500/20 border border-green-500/40 text-green-400'
-                    : 'bg-gradient-to-r from-sky-500 to-cyan-500 text-black hover:from-sky-400 hover:to-cyan-400 hover:shadow-xl hover:shadow-sky-500/25 hover:-translate-y-0.5'
+                    ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                    : 'bg-gradient-to-r from-sky-500 to-cyan-500 text-black hover:from-sky-400 hover:to-cyan-400 hover:shadow-xl hover:shadow-sky-500/25'
                 }`}
               >
                 {added ? '✅ Adicionado ao Carrinho!' : '🛒 Adicionar ao Carrinho'}

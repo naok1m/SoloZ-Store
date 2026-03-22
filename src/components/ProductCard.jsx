@@ -74,13 +74,13 @@ export default function ProductCard({ product }) {
           <div className="flex gap-2">
             <Link
               to={`/product/${product.id}`}
-              className="text-sm px-3 py-1.5 border border-db-border text-gray-400 rounded-lg hover:text-white hover:border-gray-500 transition-colors"
+              className="text-sm px-3 py-1.5 border border-db-border text-gray-400 rounded-lg hover:text-white hover:border-gray-500 transition-colors active:scale-95"
             >
               Ver
             </Link>
             <button
               onClick={handleBuyNow}
-              className="text-sm px-3 py-1.5 bg-sky-500 text-black font-bold rounded-lg hover:bg-sky-400 transition-colors"
+              className="text-sm px-3 py-1.5 bg-sky-500 text-black font-bold rounded-lg hover:bg-sky-400 transition-all active:scale-95"
             >
               Comprar
             </button>
