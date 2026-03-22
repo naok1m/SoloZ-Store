@@ -68,7 +68,7 @@ export default function Navbar() {
 
             {isAuthenticated && (
               <Link
-                to="/admin"
+                to="/admin/dashboard"
                 className="hidden sm:block text-xs text-emerald-400 hover:text-emerald-300 border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 rounded transition-colors"
               >
                 Painel Admin
@@ -123,7 +123,7 @@ export default function Navbar() {
             ))}
             {isAuthenticated && (
               <Link
-                to="/admin"
+                to="/admin/dashboard"
                 className="block px-4 py-2.5 text-emerald-400 hover:text-emerald-300 font-semibold text-sm transition-colors bg-emerald-400/5 mt-1"
                 onClick={() => setMenuOpen(false)}
               >
