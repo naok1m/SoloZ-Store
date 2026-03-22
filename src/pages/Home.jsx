@@ -43,7 +43,20 @@ export default function Home() {
   const handleLogoLeave = () => setLogoTilt({ x: 0, y: 0, active: false })
 
   return (
-    <div className="min-h-screen bg-db-dark">
+    <div className="min-h-screen bg-[#0a0a14] relative overflow-hidden">
+      
+      {/* Efeitos de Fundo Global */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Grade Sutil */}
+        <div 
+          className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:64px_64px]" 
+          style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}
+        />
+        {/* Luzes de Aura (Ki) pelo cenário */}
+        <div className="absolute top-[600px] left-[-15%] w-[40vw] h-[600px] bg-sky-600/10 blur-[150px] rounded-full mix-blend-screen" />
+        <div className="absolute top-[900px] right-[-10%] w-[35vw] h-[500px] bg-cyan-700/10 blur-[120px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-[-10%] left-[20%] w-[50vw] h-[400px] bg-indigo-600/10 blur-[140px] rounded-full mix-blend-screen" />
+      </div>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden isolate min-h-[540px]">
@@ -205,7 +218,7 @@ export default function Home() {
 
 
       {/* ── Categorias ───────────────────────────────────────── */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14">
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14 z-10">
         <div className="flex items-end justify-between mb-7">
           <div>
             <p className="text-sky-400/70 text-xs font-gaming font-semibold uppercase tracking-widest mb-1">
@@ -230,7 +243,7 @@ export default function Home() {
 
 
       {/* ── Produtos populares ───────────────────────────────── */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 z-10">
         {/* Glow sutil atrás dos cards */}
         <div className="absolute inset-x-0 top-[-60px] h-[320px] bg-gradient-to-b from-sky-500/4 to-transparent pointer-events-none" />
         <div className="flex items-end justify-between mb-8">
