@@ -3,8 +3,22 @@ import { createContext, useContext, useEffect, useState } from 'react'
 const CartContext = createContext()
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([])
+  // Inicializa o carrinho com os dados do localStorage (se existirem)
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const savedCart = localStorage.getItem('@soloz:cart')
+      return savedCart ? JSON.parse(savedCart) : []
+    } catch (error) {
+      console.error('Erro ao carregar o carrinho:', error)
+      return []
+    }
+  })
   const [toast, setToast] = useState({ visible: false, message: '' })
+
+  // Salva no localStorage toda vez que o carrinho mudar
+  useEffect(() => {
+    localStorage.setItem('@soloz:cart', JSON.stringify(cartItems))
+  }, [cartItems])
 
   useEffect(() => {
     if (!toast.visible) return

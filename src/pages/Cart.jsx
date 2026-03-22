@@ -18,9 +18,9 @@ const paymentTitles = {
 
 export default function Cart() {
   const { cartItems, totalPrice, totalItems, clearCart } = useCart()
-  const [nickname, setNickname] = useState('')
+  const [nickname, setNickname] = useState(() => localStorage.getItem('@soloz:nickname') || '')
   const [paymentMethod, setPaymentMethod] = useState('pix')
-  const [payerEmail, setPayerEmail] = useState('')
+  const [payerEmail, setPayerEmail] = useState(() => localStorage.getItem('@soloz:email') || '')
   const [error, setError] = useState('')
   const [checkoutError, setCheckoutError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -38,6 +38,12 @@ export default function Cart() {
     setError('')
     setCheckoutError('')
     setIsSubmitting(true)
+
+    // Salva o nick e email para a proxima compra
+    localStorage.setItem('@soloz:nickname', nickname.trim())
+    if (payerEmail.trim()) {
+      localStorage.setItem('@soloz:email', payerEmail.trim())
+    }
 
     try {
       const createdPayments = []

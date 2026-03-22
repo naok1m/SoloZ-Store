@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import logo from '../assets/Logo.png'
 
 export default function Navbar() {
   const { totalItems } = useCart()
+  const { isAuthenticated } = useAuth()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -64,12 +66,14 @@ export default function Navbar() {
               )}
             </Link>
 
-            <Link
-              to="/admin/login"
-              className="hidden sm:block text-xs text-gray-600 hover:text-gray-400 px-2 py-1 rounded transition-colors"
-            >
-              Admin
-            </Link>
+            {isAuthenticated && (
+              <Link
+                to="/admin"
+                className="hidden sm:block text-xs text-emerald-400 hover:text-emerald-300 border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 rounded transition-colors"
+              >
+                Painel Admin
+              </Link>
+            )}
           </div>
 
           {/* Mobile: Carrinho + Hamburger */}
@@ -117,13 +121,15 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/admin/login"
-              className="block px-4 py-2.5 text-gray-600 hover:text-gray-400 font-semibold text-sm transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              Admin
-            </Link>
+            {isAuthenticated && (
+              <Link
+                to="/admin"
+                className="block px-4 py-2.5 text-emerald-400 hover:text-emerald-300 font-semibold text-sm transition-colors bg-emerald-400/5 mt-1"
+                onClick={() => setMenuOpen(false)}
+              >
+                Painel Admin
+              </Link>
+            )}
           </div>
         )}
       </div>
