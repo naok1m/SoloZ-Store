@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { api } from '../lib/api'
 
 const TOKEN_KEY = 'soloz_admin_token'
@@ -35,6 +35,15 @@ export function AuthProvider({ children }) {
     localStorage.setItem(USER_KEY, JSON.stringify(response.user))
     return response
   }, [])
+
+  // Escuta eventos de "Unauthorized" (401) vindo da api.js
+  useEffect(() => {
+    const handleForceLogout = () => {
+      logout()
+    }
+    window.addEventListener('soloz:logout', handleForceLogout)
+    return () => window.removeEventListener('soloz:logout', handleForceLogout)
+  }, [logout])
 
   const value = useMemo(
     () => ({

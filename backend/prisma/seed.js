@@ -113,7 +113,10 @@ const products = [
 ]
 
 const main = async () => {
-  const defaultPassword = await bcrypt.hash('admin123', 10)
+  // Use uma senha forte no ambiente de produção usando variaveis de ambiente
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+  const defaultPassword = await bcrypt.hash(adminPassword, 12)
+  
   await prisma.user.upsert({
     where: { email: 'admin@soloz.com' },
     update: {

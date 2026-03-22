@@ -3,6 +3,9 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 const parseJson = async (response) => {
   const payload = await response.json().catch(() => ({}))
   if (!response.ok) {
+    if (response.status === 401) {
+      window.dispatchEvent(new Event('soloz:logout'))
+    }
     const error = new Error(payload.error || payload.message || 'Erro na API')
     error.status = response.status
     throw error
